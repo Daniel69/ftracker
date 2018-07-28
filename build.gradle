@@ -1,0 +1,22 @@
+description = "F Tracker"
+apply from: 'https://s3.amazonaws.com/clean-architecture/build.gradle'
+
+buildscript {
+    ext {
+        springBootVersion = '2.0.2.RELEASE'
+        springCloudVersion = 'Finchley.RC1'
+    }
+    repositories {
+        mavenCentral()
+        maven { url "https://repo.spring.io/milestone" }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+allprojects {
+    group = 'us.sofka.reactive'
+    version '0.0.1-SNAPSHOT'
+}
+

@@ -1,0 +1,5 @@
+dependencies {
+    compile group: 'com.pusher', name: 'pusher-http-java', version: '1.0.0'
+    compile group: 'org.springframework', name: 'spring-context'
+}
+
