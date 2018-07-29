@@ -9,7 +9,7 @@
 package us.sofka.reactive.model.generic;
 
 import org.junit.Test;
-import us.sofka.reactive.common.UniqueIDGenerator;
+import bid.dbo.ftracker.common.UniqueIDGenerator;
 
 import static org.junit.Assert.*;
 
