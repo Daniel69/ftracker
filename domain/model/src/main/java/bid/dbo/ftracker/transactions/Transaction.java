@@ -1,30 +1,31 @@
 package bid.dbo.ftracker.transactions;
 
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-@Builder
+@Builder(toBuilder = true)
 @Getter
 public class Transaction {
+    private final String id;
     private final String account;
     private final Date date;
-    private final BigDecimal amount;
+    private final Double amount;
 
     private final MetaData metaData;
 
     @Builder
-    @Getter
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
     public static class MetaData {
-        private final String ref1;
-        private final String ref2;
-        private final String description;
-        private final List<String> tags;
-        private final Map<String, String> extra;
+        private String ref1;
+        private String ref2;
+        private String description;
+        private List<String> tags;
+        private Map<String, String> extra;
     }
 
 }

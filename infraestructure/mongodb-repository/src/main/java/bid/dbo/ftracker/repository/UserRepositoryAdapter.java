@@ -6,6 +6,7 @@ import bid.dbo.ftracker.users.User;
 import bid.dbo.ftracker.users.gateways.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import reactor.core.publisher.Flux;
 import us.sofka.reactive.mapper.ObjectMapper;
 import bid.dbo.ftracker.repository.generic.AdapterOperations;
 
@@ -17,4 +18,8 @@ public class UserRepositoryAdapter extends AdapterOperations<User, UserData, Str
         super(repository, mapper, data -> mapper.mapBuilder(data, User.UserBuilder.class).build());
     }
 
+    @Override
+    public Flux<User> findAll() {
+        return doQueryMany(repository.findAll());
+    }
 }

@@ -1,5 +1,6 @@
 dependencies {
     compile project(':domain:usecase')
+    compile project(':infraestructure:reactive-web-security')
     compile('org.springframework.boot:spring-boot-starter-webflux')
 
 }

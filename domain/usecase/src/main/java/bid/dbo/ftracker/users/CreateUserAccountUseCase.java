@@ -1,11 +1,7 @@
-package bid.dbo.ftracker.accounts;
+package bid.dbo.ftracker.users;
 
 import bid.dbo.ftracker.common.UniqueIDGenerator;
 import bid.dbo.ftracker.common.ex.ErrorReporter;
-import bid.dbo.ftracker.users.User;
-import bid.dbo.ftracker.users.UserAccount;
-import bid.dbo.ftracker.users.UserAccountFactory;
-import bid.dbo.ftracker.users.UserFactory;
 import bid.dbo.ftracker.users.gateways.UserAccountRepository;
 import bid.dbo.ftracker.users.gateways.UserIdentityProvider;
 import bid.dbo.ftracker.users.gateways.UserRepository;
@@ -26,7 +22,7 @@ public class CreateUserAccountUseCase implements UserAccountFactory, UserFactory
     private final UserRepository users;
     private final UserIdentityProvider identities;
 
-    public Mono<Void> createUserAccount(CreateAccountCommand command) {
+    public Mono<Void> createUserAccount(CreateUserAccountCommand command) {
         return noDuplicateUser(command.getEmail()).then(zip(now(), uuid()))
             .flatMap(function((now, id) -> {
                 final Mono<User> user = createNewUser(command.getEmail(), command.getFullName(), now, command.getPasswd());
@@ -46,4 +42,5 @@ public class CreateUserAccountUseCase implements UserAccountFactory, UserFactory
     private Mono<Void> noDuplicateUser(String email){
         return users.findById(email).hasElement().flatMap(exist -> exist ? dError(Type.USER_ALREADY_EXIST) : empty());
     }
+
 }
