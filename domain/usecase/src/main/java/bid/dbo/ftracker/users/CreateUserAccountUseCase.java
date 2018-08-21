@@ -25,15 +25,13 @@ public class CreateUserAccountUseCase implements UserAccountFactory, UserFactory
     public Mono<Void> createUserAccount(CreateUserAccountCommand command) {
         return noDuplicateUser(command.getEmail()).then(zip(now(), uuid()))
             .flatMap(function((now, id) -> {
-                final Mono<User> user = createNewUser(command.getEmail(), command.getFullName(), now, command.getPasswd());
+                final Mono<User> user = createUser(command.getEmail(), command.getFullName(), now);
                 final Mono<UserAccount> userAccount = createUserAccount(id, now, command.getEmail());
-                return zip(user, userAccount);
+                return identities.createUserIdentity(command.getEmail(), command.getPasswd())
+                    .then(zip(user, userAccount));
         })).flatMap(function(this::save));
     }
 
-    private Mono<User> createNewUser(String email, String fullName, Date now, String passwd) {
-        return identities.createUserIdentity(email, passwd).flatMap(id -> createUser(email, fullName, now, id));
-    }
 
     private Mono<Void> save(User user, UserAccount userAccount){
         return zip(users.save(user), userAccounts.save(userAccount)).then();

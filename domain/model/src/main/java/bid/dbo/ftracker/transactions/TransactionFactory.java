@@ -14,8 +14,8 @@ import java.util.function.BiFunction;
 
 public interface TransactionFactory {
 
-    default Mono<Transaction> create(String account, Double amount, Transaction.MetaData data){
-        if(!isEmpty(account) &&  amount != null){
+    default Mono<Transaction> create(String account, Double amount, Transaction.MetaData data, String categoryId){
+        if(!isEmpty(account) &&  amount != null && !isEmpty(categoryId)){
             return just(Transaction.builder().account(account).amount(amount).metaData(data).build());
         }else {
             return error(BusinessValidationException.Type.INVALID_TRANSACTION_INITIAL_DATA.build());

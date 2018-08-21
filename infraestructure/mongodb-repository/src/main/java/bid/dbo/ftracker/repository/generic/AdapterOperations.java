@@ -1,5 +1,8 @@
 package bid.dbo.ftracker.repository.generic;
 
+import static org.springframework.data.domain.Example.of;
+import org.springframework.data.mongodb.core.ReactiveAggregationOperation;
+import org.springframework.data.repository.query.ReactiveQueryByExampleExecutor;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -8,7 +11,7 @@ import us.sofka.reactive.mapper.ObjectMapper;
 import java.lang.reflect.ParameterizedType;
 import java.util.function.Function;
 
-public abstract class AdapterOperations<Entity, Data, ID, Repo extends ReactiveCrudRepository<Data, ID>> {
+public abstract class AdapterOperations<Entity, Data, ID, Repo extends ReactiveCrudRepository<Data, ID> & ReactiveQueryByExampleExecutor<Data>> {
 
     protected Repo repository;
     protected ObjectMapper mapper;
@@ -36,6 +39,10 @@ public abstract class AdapterOperations<Entity, Data, ID, Repo extends ReactiveC
 
     public Mono<Entity> findById(ID id) {
         return doQuery(repository.findById(id));
+    }
+
+    public Flux<Entity> findByExample(Entity entity){
+        return doQueryMany(repository.findAll(of(toData(entity))));
     }
 
     protected Flux<Entity> doQueryMany(Flux<Data> query) {

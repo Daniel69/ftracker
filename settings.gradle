@@ -1,7 +1,8 @@
 rootProject.name = 'FTracker'
-include "main"
+include 'main'
 include 'domain:model'
 include 'domain:usecase'
+include 'acceptance'
 include 'infraestructure:mongodb-repository'
 include 'infraestructure:async-commons'
 include 'infraestructure:auth0-identity-provider'

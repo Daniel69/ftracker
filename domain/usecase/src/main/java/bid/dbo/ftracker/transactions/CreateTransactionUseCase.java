@@ -27,7 +27,7 @@ public class CreateTransactionUseCase implements TransactionFactory, UniqueIDGen
         final Mono<UserAccount> userAccountM = userAccounts.findById(command.getUserAccount());
         final Mono<Account> accountM = accounts.findById(command.getAccount());
 
-        return create(command.getAccount(), command.getAmount(), command.getMetaData())
+        return create(command.getAccount(), command.getAmount(), command.getMetaData(), command.getCategoryId())
             .flatMap(transaction -> zip(userAccountM, accountM)
                 .flatMap(tpl -> validateAccess(command.getUser(), tpl.getT1(), tpl.getT2()))
                 .then(saveNew(transaction))

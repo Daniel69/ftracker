@@ -13,6 +13,7 @@ public class Transaction {
     private final String account;
     private final Date date;
     private final Double amount;
+    private final String categoryId;
 
     private final MetaData metaData;
 

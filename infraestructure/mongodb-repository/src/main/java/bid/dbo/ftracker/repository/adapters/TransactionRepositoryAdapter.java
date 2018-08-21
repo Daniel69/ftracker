@@ -1,4 +1,4 @@
-package bid.dbo.ftracker.repository;
+package bid.dbo.ftracker.repository.adapters;
 
 import bid.dbo.ftracker.transactions.Transaction;
 import bid.dbo.ftracker.transactions.gateways.TransactionRepository;

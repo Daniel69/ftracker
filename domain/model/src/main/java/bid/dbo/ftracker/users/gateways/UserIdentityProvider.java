@@ -4,4 +4,5 @@ import reactor.core.publisher.Mono;
 
 public interface UserIdentityProvider {
     Mono<String> createUserIdentity(String email, String password);
+    Mono<Void> deleteUserIdentity(String email);
 }

@@ -1,4 +1,4 @@
-package bid.dbo.ftracker.repository;
+package bid.dbo.ftracker.repository.adapters;
 
 import bid.dbo.ftracker.users.UserAccount;
 import bid.dbo.ftracker.users.gateways.UserAccountRepository;

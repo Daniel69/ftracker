@@ -1,0 +1,11 @@
+apply plugin: 'org.springframework.boot'
+
+dependencies {
+    compile project(":infraestructure:reactive-web")
+    compile project(":infraestructure:mongodb-repository")
+    compile project(":infraestructure:objects-utils")
+    compile project(":infraestructure:auth0-identity-provider")
+    runtime('org.springframework.boot:spring-boot-devtools')
+    compile group: 'de.flapdoodle.embed', name: 'de.flapdoodle.embed.mongo', version: '2.0.3'
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+}

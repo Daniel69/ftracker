@@ -2,11 +2,9 @@ apply plugin: 'org.springframework.boot'
 
 dependencies {
 	compile project(":infraestructure:reactive-web")
-    //compile project(":infraestructure:dynamodb-repository")
 	compile project(":infraestructure:mongodb-repository")
 	compile project(":infraestructure:objects-utils")
 	compile project(":infraestructure:auth0-identity-provider")
 	runtime('org.springframework.boot:spring-boot-devtools')
-	testCompile('org.springframework.boot:spring-boot-starter-test')
-	testCompile('io.projectreactor:reactor-test')
+	//testCompile('io.projectreactor:reactor-test')
 }

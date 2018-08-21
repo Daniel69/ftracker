@@ -29,7 +29,6 @@ public class UserAccountServices {
     @GetMapping(path = "list", produces = MediaType.APPLICATION_JSON_VALUE)
     public Flux<String> listUsers(){
         return ReactiveIdentityContext.identity().flatMapMany(s -> {
-            String authorization = s.getAuthorization();
             return Flux.just("s", "w");
         });
     }

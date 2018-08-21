@@ -1,6 +1,5 @@
 dependencies {
     compile project(':domain:model')
     compile 'com.auth0:auth0:1.8.0'
-    compile('org.springframework.boot:spring-boot-starter-webflux')
-
+    compile 'org.springframework.boot:spring-boot-starter-webflux'
 }

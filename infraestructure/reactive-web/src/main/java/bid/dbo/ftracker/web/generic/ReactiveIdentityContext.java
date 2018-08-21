@@ -13,7 +13,6 @@ public class ReactiveIdentityContext {
             DecodedJWT decodedJWT = DecodedJWT.class.cast(securityContext.getAuthentication().getDetails());
             final String email = decodedJWT.getClaim("https://f-tracker.dbo.bid/email").asString();
             return User.builder()
-                .authorization(principal.split("\\|")[1])
                 .email(email)
                 .build();
         });

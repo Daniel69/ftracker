@@ -12,5 +12,4 @@ public class User {
     private final String fullName;
     private final Date singUpDate;
     private final String mainAccount;
-    private final String authorization;
 }

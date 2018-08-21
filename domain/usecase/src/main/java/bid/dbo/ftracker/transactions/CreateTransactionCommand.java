@@ -16,6 +16,7 @@ public class CreateTransactionCommand {
     private String account;
     private String userAccount;
     private Double amount;
+    private String categoryId;
     private User user;
     private Transaction.MetaData metaData;
 
