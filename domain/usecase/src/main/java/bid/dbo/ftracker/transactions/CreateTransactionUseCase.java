@@ -3,8 +3,6 @@ package bid.dbo.ftracker.transactions;
 import bid.dbo.ftracker.accounts.Account;
 import bid.dbo.ftracker.accounts.AccountOperations;
 import bid.dbo.ftracker.accounts.gateways.AccountRepository;
-import bid.dbo.ftracker.common.UniqueIDGenerator;
-import bid.dbo.ftracker.common.ex.ErrorReporter;
 import bid.dbo.ftracker.transactions.gateways.TransactionRepository;
 import bid.dbo.ftracker.users.User;
 import bid.dbo.ftracker.users.UserAccount;
@@ -13,11 +11,13 @@ import bid.dbo.ftracker.users.gateways.UserAccountRepository;
 import lombok.AllArgsConstructor;
 import reactor.core.publisher.Mono;
 
+import static bid.dbo.ftracker.common.UniqueIDGenerator.now;
+import static bid.dbo.ftracker.common.UniqueIDGenerator.uuid;
 import static reactor.core.publisher.Mono.zip;
 import static reactor.function.TupleUtils.function;
 
 @AllArgsConstructor
-public class CreateTransactionUseCase implements TransactionFactory, UniqueIDGenerator, AccountOperations, UserAccountOperations {
+public class CreateTransactionUseCase implements TransactionFactory, AccountOperations, UserAccountOperations {
 
     private final TransactionRepository transactions;
     private final UserAccountRepository userAccounts;

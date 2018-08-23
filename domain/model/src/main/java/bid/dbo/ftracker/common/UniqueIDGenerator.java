@@ -10,17 +10,13 @@ import java.util.UUID;
 import static reactor.core.publisher.Mono.fromSupplier;
 
 public interface UniqueIDGenerator {
-
-
-    default Mono<String> uuid(){
+    static Mono<String> uuid(){
         return fromSupplier(() -> UUID.randomUUID().toString());
     }
-
-    default Flux<String> uuids(){
+    static Flux<String> uuids(){
         return Flux.generate(sink -> sink.next(UUID.randomUUID().toString()));
     }
-
-    default Mono<Date> now(){
+    static Mono<Date> now(){
         return fromSupplier(Date::new);
     }
 }

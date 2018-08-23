@@ -3,6 +3,7 @@ apply plugin: 'org.springframework.boot'
 dependencies {
 	compile project(":infraestructure:reactive-web")
 	compile project(":infraestructure:mongodb-repository")
+	compile project(":infraestructure:memory-event-bus")
 	compile project(":infraestructure:objects-utils")
 	compile project(":infraestructure:auth0-identity-provider")
 	runtime('org.springframework.boot:spring-boot-devtools')

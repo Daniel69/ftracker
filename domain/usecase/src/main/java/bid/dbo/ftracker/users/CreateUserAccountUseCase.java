@@ -1,6 +1,6 @@
 package bid.dbo.ftracker.users;
 
-import bid.dbo.ftracker.common.UniqueIDGenerator;
+import static bid.dbo.ftracker.common.UniqueIDGenerator.*;
 import bid.dbo.ftracker.common.ex.ErrorReporter;
 import bid.dbo.ftracker.users.gateways.UserAccountRepository;
 import bid.dbo.ftracker.users.gateways.UserIdentityProvider;
@@ -16,7 +16,7 @@ import static reactor.core.publisher.Mono.zip;
 import static reactor.function.TupleUtils.function;
 
 @AllArgsConstructor
-public class CreateUserAccountUseCase implements UserAccountFactory, UserFactory, ErrorReporter, UniqueIDGenerator {
+public class CreateUserAccountUseCase implements UserAccountFactory, UserFactory, ErrorReporter {
 
     private final UserAccountRepository userAccounts;
     private final UserRepository users;

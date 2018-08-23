@@ -9,7 +9,7 @@ import static bid.dbo.ftracker.common.StringUtil.isEmpty;
 
 public interface CategoryFactory {
 
-    default Mono<Category> createCategory(Supplier<Category> supplier, String id){
+    static Mono<Category> createNewCategory(Supplier<Category> supplier, String id){
         final Category category = supplier.get();
         if(isEmpty(category.getName()) || isEmpty(id)){
             return Mono.error(BusinessValidationException.Type.INVALID_CATEGORY_INITIAL_DATA.build());
@@ -18,9 +18,14 @@ public interface CategoryFactory {
         }
     }
 
-    default Category createCategory2(Supplier<Category> supplier, String id){
-        return supplier.get();
+    static Mono<Category> createInitialCategory(String accountId, String id){
+        if(isEmpty(accountId) || isEmpty(id)) {
+            return Mono.error(BusinessValidationException.Type.INVALID_CATEGORY_INITIAL_DATA.build());
+        }else {
+            return Mono.just(Category.builder().id(id).account(accountId).name("General").description("General Category").build());
+        }
     }
+
 
 }
 

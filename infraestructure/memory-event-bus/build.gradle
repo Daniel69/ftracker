@@ -1,0 +1,6 @@
+dependencies {
+    compile project(':domain:usecase')
+    compile group: 'org.springframework', name: 'spring-context'
+    testCompile('org.springframework.boot:spring-boot-starter-webflux')
+    testCompile group: 'org.slf4j', name: 'slf4j-nop', version: '1.7.25'
+}

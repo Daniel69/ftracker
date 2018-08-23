@@ -58,7 +58,7 @@ public class CategoryOperationsTest {
     }
 
     private Category build(Category root){
-        return factory.createCategory(() ->
+        return CategoryFactory.createNewCategory(() ->
             Category.builder()
                 .parentId(root != null ? root.getId() : null)
                 .name("test").build(), "s_"+secuence.incrementAndGet()).block();

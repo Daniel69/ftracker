@@ -1,25 +1,21 @@
 package bid.dbo.ftracker.accounts;
 
 import bid.dbo.ftracker.accounts.gateways.AccountRepository;
-import bid.dbo.ftracker.common.UniqueIDGenerator;
 import bid.dbo.ftracker.common.ex.ErrorReporter;
-import bid.dbo.ftracker.users.*;
+import bid.dbo.ftracker.users.User;
+import bid.dbo.ftracker.users.UserAccount;
+import bid.dbo.ftracker.users.UserAccountOperations;
 import bid.dbo.ftracker.users.gateways.UserAccountRepository;
-import bid.dbo.ftracker.users.gateways.UserIdentityProvider;
-import bid.dbo.ftracker.users.gateways.UserRepository;
 import lombok.AllArgsConstructor;
 import reactor.core.publisher.Mono;
 
-import java.util.Date;
-
-import static bid.dbo.ftracker.common.ex.BusinessValidationException.Type;
-import static reactor.core.publisher.Mono.empty;
-import static reactor.core.publisher.Mono.just;
+import static bid.dbo.ftracker.common.UniqueIDGenerator.now;
+import static bid.dbo.ftracker.common.UniqueIDGenerator.uuid;
 import static reactor.core.publisher.Mono.zip;
 import static reactor.function.TupleUtils.function;
 
 @AllArgsConstructor
-public class CreateAccountUseCase implements UserAccountOperations, AccountFactory, ErrorReporter, UniqueIDGenerator {
+public class CreateAccountUseCase implements UserAccountOperations, AccountFactory, ErrorReporter {
 
     private final UserAccountRepository userAccounts;
     private final AccountRepository accounts;

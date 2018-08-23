@@ -1,7 +1,7 @@
 package bid.dbo.ftracker.categories;
 
 import bid.dbo.ftracker.categories.gateways.CategoryRepository;
-import bid.dbo.ftracker.common.UniqueIDGenerator;
+import bid.dbo.ftracker.events.UserAccountCreated;
 import bid.dbo.ftracker.users.User;
 import bid.dbo.ftracker.users.UserAccount;
 import bid.dbo.ftracker.users.UserAccountOperations;
@@ -10,12 +10,16 @@ import lombok.AllArgsConstructor;
 import reactor.core.publisher.Mono;
 import us.sofka.reactive.mapper.ObjectMapper;
 
+
 import java.util.List;
 
 import static reactor.function.TupleUtils.function;
+import static bid.dbo.ftracker.categories.CategoryFactory.createInitialCategory;
+import static bid.dbo.ftracker.categories.CategoryFactory.createNewCategory;
+import static bid.dbo.ftracker.common.UniqueIDGenerator.uuid;
 
 @AllArgsConstructor
-public class CategoryUseCase implements CategoryFactory, UniqueIDGenerator, UserAccountOperations, CategoryOperations {
+public class CategoryUseCase implements UserAccountOperations, CategoryOperations {
 
     private final CategoryRepository categories;
     private final UserAccountRepository userAccounts;
@@ -23,8 +27,15 @@ public class CategoryUseCase implements CategoryFactory, UniqueIDGenerator, User
 
     public Mono<Category> createCategory(CategoryCommand command, Mono<User> user) {
         return validateUserAccount(command.getAccount(), user).then(uuid())
-            .flatMap(uuid -> createCategory(() -> mapper.mapBuilder(command, Category.CategoryBuilder.class).build(), uuid))
+            .flatMap(uuid -> createNewCategory(() -> mapper.mapBuilder(command, Category.CategoryBuilder.class).build(), uuid))
             .flatMap(categories::save);
+    }
+
+    public Mono<Void> createGeneralCategory(UserAccountCreated createdAccount){
+        return uuid()
+            .flatMap(uuid -> createInitialCategory(createdAccount.getAccountId(), uuid))
+            .flatMap(categories::save)
+            .then();
     }
 
     public Mono<Category> updateCategory(CategoryCommand command, Mono<User> user) {
