@@ -14,5 +14,4 @@ public class UserData {
     private String fullName;
     private Date singUpDate;
     private String mainAccount;
-    private String authorization;
 }

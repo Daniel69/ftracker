@@ -19,10 +19,10 @@ public class IndexConfig {
     @Bean
     public CommandLineRunner createIndexes(){
         return args -> {
-            mongoOperations.indexOps(UserData.class).ensureIndex(new Index()
-                .on("authorization", Sort.Direction.ASC)
-                .unique()
-            );
+//            mongoOperations.indexOps(UserData.class).ensureIndex(new Index()
+//                .on("authorization", Sort.Direction.ASC)
+//                .unique()
+//            );
             System.out.println("Indexes created!");
         };
     }

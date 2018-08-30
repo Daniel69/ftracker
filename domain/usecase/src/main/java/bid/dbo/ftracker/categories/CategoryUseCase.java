@@ -25,6 +25,7 @@ public class CategoryUseCase implements UserAccountOperations, CategoryOperation
     private final UserAccountRepository userAccounts;
     private final ObjectMapper mapper;
 
+    //TODO: asociar categoria a la cuenta
     public Mono<Category> createCategory(CategoryCommand command, Mono<User> user) {
         return validateUserAccount(command.getAccount(), user).then(uuid())
             .flatMap(uuid -> createNewCategory(() -> mapper.mapBuilder(command, Category.CategoryBuilder.class).build(), uuid))

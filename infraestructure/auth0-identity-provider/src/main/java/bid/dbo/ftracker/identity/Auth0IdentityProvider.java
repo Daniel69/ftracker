@@ -34,6 +34,8 @@ public class Auth0IdentityProvider implements UserIdentityProvider {
                 return Mono.error(e);
             }
         }).subscribeOn(Schedulers.elastic());
+
+
     }
 
     @Override

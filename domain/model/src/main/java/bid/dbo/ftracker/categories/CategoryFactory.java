@@ -11,7 +11,7 @@ public interface CategoryFactory {
 
     static Mono<Category> createNewCategory(Supplier<Category> supplier, String id){
         final Category category = supplier.get();
-        if(isEmpty(category.getName()) || isEmpty(id)){
+        if(isEmpty(category.getName()) || isEmpty(id) || isEmpty(category.getAccount())){
             return Mono.error(BusinessValidationException.Type.INVALID_CATEGORY_INITIAL_DATA.build());
         }else {
             return Mono.just(category.toBuilder().id(id).build());
