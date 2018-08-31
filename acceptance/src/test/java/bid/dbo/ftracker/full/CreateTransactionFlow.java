@@ -3,24 +3,22 @@ package bid.dbo.ftracker.full;
 import bid.dbo.ftracker.Category;
 import bid.dbo.ftracker.categories.CategoryCommand;
 import bid.dbo.ftracker.identity.Auth0IdentityProvider;
+import bid.dbo.ftracker.transactions.CreateTransactionCommand;
+import bid.dbo.ftracker.transactions.Transaction;
 import bid.dbo.ftracker.users.gateways.UserIdentityProvider;
 import com.auth0.client.auth.AuthAPI;
 import com.auth0.client.mgmt.ManagementAPI;
 import com.auth0.exception.Auth0Exception;
 import com.auth0.json.auth.TokenHolder;
 import com.auth0.net.AuthRequest;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -69,7 +67,7 @@ public class CreateTransactionFlow {
 
         account = getMainAccount();
 
-        createCategory();
+        final String category = createCategory();
 
         final List<Category> categories = getCategories();
 
@@ -77,9 +75,37 @@ public class CreateTransactionFlow {
 
         System.out.println(categories);
 
+        final String savingAccount = createAccount();
+
+        String txId = createTx(57000.4, savingAccount, category);
+
+        final TransactionDTO[] transactions = doCall(client.get().uri("/accounts/{account}/transactions", savingAccount), TransactionDTO[].class);
+
+        assertThat(transactions).hasSize(1);
 
 
+        System.out.println(txId);
         identityProvider.deleteUserIdentity(username).block();
+    }
+
+    private String createTx(Double value, String account, String category){
+        CreateTransactionCommand createTransaction = CreateTransactionCommand.builder()
+            .account(account)
+            .amount(value)
+            .categoryId(category)
+            .metaData(Transaction.MetaData.builder().description("Tx Test").build()).build();
+
+        return doCall(client.post().uri("/accounts/{account}/transactions", account)
+            .contentType(MediaType.APPLICATION_JSON)
+            .syncBody(createTransaction), String.class);
+    }
+
+    private String createAccount(){
+        HashMap<String, String> rqt = new HashMap<>();
+        rqt.put("userAccount", account);
+        rqt.put("name", "Cuenta Bancolombia");
+        rqt.put("description", "Cuenta de nomina y ahorros");
+        return doCall(client.post().uri("accounts").contentType(MediaType.APPLICATION_JSON).syncBody(rqt), String.class);
     }
 
     private String getMainAccount(){
@@ -92,14 +118,14 @@ public class CreateTransactionFlow {
 
     }
 
-    private void createCategory(){
+    private String createCategory(){
         CategoryCommand command = new CategoryCommand();
         command.setAccount(account);
         command.setName("Prueba Categoria2");
         command.setDescription("Test1");
-        doCall(client.post().uri("categories")
+        return doCall(client.post().uri("categories")
             .contentType(MediaType.APPLICATION_JSON)
-            .syncBody(command), Void.class);
+            .syncBody(command), String.class);
     }
 
     private void authenticate() throws Auth0Exception {

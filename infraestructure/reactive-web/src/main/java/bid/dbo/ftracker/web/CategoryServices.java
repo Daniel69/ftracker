@@ -20,8 +20,8 @@ public class CategoryServices {
     private final CategoryUseCase categoryUseCase;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Mono<Void> createCategory(@RequestBody CategoryCommand command){
-        return categoryUseCase.createCategory(command, identity()).then();
+    public Mono<String> createCategory(@RequestBody CategoryCommand command){
+        return categoryUseCase.createCategory(command, identity()).map(Category::getId);
     }
 
 

@@ -6,12 +6,15 @@ import bid.dbo.ftracker.accounts.CreateAccountUseCase;
 import bid.dbo.ftracker.accounts.QueryAccountsUseCase;
 import bid.dbo.ftracker.transactions.CreateTransactionCommand;
 import bid.dbo.ftracker.transactions.CreateTransactionUseCase;
+import bid.dbo.ftracker.transactions.QueryTransactionsUseCase;
 import bid.dbo.ftracker.transactions.Transaction;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.List;
 
 import static bid.dbo.ftracker.web.generic.ReactiveIdentityContext.identity;
 
@@ -24,6 +27,7 @@ public class AccountServices {
     private final CreateAccountUseCase useCase;
     private final CreateTransactionUseCase createTransactions;
     private final QueryAccountsUseCase queryAccountsUseCase;
+    private final QueryTransactionsUseCase queryTransactionsUseCase;
 
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -40,6 +44,11 @@ public class AccountServices {
     public Mono<String> createTransaction(@RequestBody CreateTransactionCommand command, @PathVariable("account") String account){
         return identity().map(user -> command.toBuilder().user(user).account(account).build())
             .flatMap(createTransactions::createTransaction).map(Transaction::getId);
+    }
+
+    @GetMapping(path = "/{account}/transactions")
+    public Mono<List<Transaction>> findTransactions(@PathVariable("account") String account){
+        return identity().flatMap(user -> queryTransactionsUseCase.findTransactions(user, account));
     }
 
 }

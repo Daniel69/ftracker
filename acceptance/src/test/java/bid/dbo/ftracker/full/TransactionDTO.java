@@ -1,16 +1,12 @@
-package bid.dbo.ftracker.repository.data;
+package bid.dbo.ftracker.full;
 
 import bid.dbo.ftracker.transactions.Transaction;
 import lombok.Data;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
 
 @Data
-@Document
-public class TransactionData {
-    @Id
+public class TransactionDTO {
     private String id;
     private String account;
     private Date date;

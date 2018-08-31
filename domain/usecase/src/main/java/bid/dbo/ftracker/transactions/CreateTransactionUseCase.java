@@ -24,12 +24,11 @@ public class CreateTransactionUseCase implements TransactionFactory, AccountOper
     private final AccountRepository accounts;
 
     public Mono<Transaction> createTransaction(CreateTransactionCommand command) {
-        final Mono<UserAccount> userAccountM = userAccounts.findById(command.getUserAccount());
         final Mono<Account> accountM = accounts.findById(command.getAccount());
 
         return create(command.getAccount(), command.getAmount(), command.getMetaData(), command.getCategoryId())
-            .flatMap(transaction -> zip(userAccountM, accountM)
-                .flatMap(tpl -> validateAccess(command.getUser(), tpl.getT1(), tpl.getT2()))
+            .flatMap(transaction -> accountM.flatMap(account -> userAccounts.findById(account.getUserAccount())
+                .flatMap(userAccount -> validateAccess(command.getUser(), userAccount, account)))
                 .then(saveNew(transaction))
             );
     }

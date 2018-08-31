@@ -6,6 +6,7 @@ import bid.dbo.ftracker.categories.CategoryUseCase;
 import bid.dbo.ftracker.categories.gateways.CategoryRepository;
 import bid.dbo.ftracker.events.EventBus;
 import bid.dbo.ftracker.transactions.CreateTransactionUseCase;
+import bid.dbo.ftracker.transactions.QueryTransactionsUseCase;
 import bid.dbo.ftracker.transactions.gateways.TransactionRepository;
 import bid.dbo.ftracker.users.UserAccountsUseCase;
 import bid.dbo.ftracker.accounts.gateways.AccountRepository;
@@ -42,6 +43,11 @@ public class UseCaseConfiguration {
     @Bean
     public CategoryUseCase createCategoryUseCase(CategoryRepository categories, ObjectMapper mapper, UserAccountRepository usersAccounts){
         return new CategoryUseCase(categories, usersAccounts, mapper);
+    }
+
+    @Bean
+    public QueryTransactionsUseCase queryTransactionsUseCase(TransactionRepository transactions, AccountRepository accounts, UserAccountRepository userAccounts){
+        return new QueryTransactionsUseCase(transactions, userAccounts, accounts);
     }
 
 }

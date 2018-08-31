@@ -16,7 +16,7 @@ public interface TransactionFactory {
 
     default Mono<Transaction> create(String account, Double amount, Transaction.MetaData data, String categoryId){
         if(!isEmpty(account) &&  amount != null && !isEmpty(categoryId)){
-            return just(Transaction.builder().account(account).amount(amount).metaData(data).build());
+            return just(Transaction.builder().account(account).amount(amount).categoryId(categoryId).metaData(data).build());
         }else {
             return error(BusinessValidationException.Type.INVALID_TRANSACTION_INITIAL_DATA.build());
         }

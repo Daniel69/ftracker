@@ -14,7 +14,6 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class CreateTransactionCommand {
     private String account;
-    private String userAccount;
     private Double amount;
     private String categoryId;
     private User user;
