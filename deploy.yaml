@@ -1,0 +1,41 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: ftracker
+spec:
+  type: LoadBalancer
+  selector:
+    app: ftracker
+  ports:
+  - port: 80
+    targetPort: 8080
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: ftracker
+  labels:
+    app: ftracker
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ftracker
+  template:
+    metadata:
+      labels:
+        app: ftracker
+    spec:
+      containers:
+      - name: ftracker
+        image: gcr.io/ftracker-214122/ftracker
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - name: config
+          mountPath: "/app/config"
+          readOnly: true
+      volumes:
+      - name: config
+        secret:
+          secretName: app-config

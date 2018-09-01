@@ -61,6 +61,7 @@ public class CategoryOperationsTest {
         return CategoryFactory.createNewCategory(() ->
             Category.builder()
                 .parentId(root != null ? root.getId() : null)
+                .account("223")
                 .name("test").build(), "s_"+secuence.incrementAndGet()).block();
     }
 }

@@ -78,10 +78,11 @@ public class CreateTransactionFlow {
         final String savingAccount = createAccount();
 
         String txId = createTx(57000.4, savingAccount, category);
+        String txId2 = createTx(67000.4, savingAccount, category);
 
         final TransactionDTO[] transactions = doCall(client.get().uri("/accounts/{account}/transactions", savingAccount), TransactionDTO[].class);
 
-        assertThat(transactions).hasSize(1);
+        assertThat(transactions).hasSize(2);
 
 
         System.out.println(txId);
